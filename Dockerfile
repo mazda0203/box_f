@@ -6,5 +6,7 @@ RUN apt install git -y
 WORKDIR /hello
 RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git /hello
 RUN mvn package
-VOLUME /home/user1/box_f:/hello
-RUN cp /hello/target/hello-1.0.war /hello
+#--- app ---
+FROM tomcat:9.0
+COPY --from=build /hello/target/hello-1.0.war /usr/local/tomcat/webapps/
+CMD ["catalina.sh", "run"]
