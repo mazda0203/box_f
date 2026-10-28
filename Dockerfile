@@ -1,8 +1,10 @@
 # --- build ---
-FROM maven:3.10.0-eclipse-temurin-17
+FROM ubuntu:20.04
 RUN apt update
+RUN apt install maven -y
 RUN apt install git -y
-VOLUME /home/user1/box_f:/target
-RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-RUN cp -a /boxfuse-sample-java-war-hello/. /
+WORKDIR /hello
+RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git /hello
 RUN mvn package
+VOLUME /home/user1/box_f:/hello
+RUN cp /hello/target/hello-1.0.war /hello
